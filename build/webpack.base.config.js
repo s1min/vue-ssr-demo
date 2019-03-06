@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -17,6 +19,7 @@ module.exports = {
     },
   },
   module: {
+    noParse: /es6-promise\.js$/,
     rules: [
       {
         test: /\.vue$/,
@@ -49,5 +52,22 @@ module.exports = {
         },
       },
     ],
-  }
+  },
+  performance: {
+    hints: isProd ? 'error' : 'warning',
+  },
+  plugins: isProd
+    ? [
+      new VueLoaderPlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: { warnings: false },
+      }),
+      new webpack.optimize.ModuleConcatenationPlugin(),
+      new ExtractTextPlugin({
+        filename: 'common.[chunkhash].css',
+      }),
+    ]
+    : [
+      new VueLoaderPlugin(),
+    ]
 };
