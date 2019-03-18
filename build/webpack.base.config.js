@@ -51,6 +51,21 @@ module.exports = {
           name: '[name].[hash:7].[ext]',
         },
       },
+      {
+        test: /\.(s)css?$/,
+        use: isProd
+          ? ExtractTextPlugin({
+            use: [
+              {
+                loader: 'css-loader',
+                options: { optimize: true },
+              },
+              'sass-loader',
+            ],
+            fallback: 'vue-style-loader',
+          })
+          : ['vue-style-loader', 'css-loader', 'sass-loader']
+      },
     ],
   },
   performance: {

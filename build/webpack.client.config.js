@@ -18,7 +18,7 @@ const config = merge(base, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function(module) {
-        // 如果某个模块被提取到第三方块中
+        // 如果某个模块被提取到第三方代码块中
         return (
           // 它在 node_modules 中时
           /node_modules/.test(module.context) &&
@@ -27,7 +27,7 @@ const config = merge(base, {
         );
       },
     }),
-    // 提取 webpack runtime 和 manifest 以避免第三方块在每次构建的时候改变
+    // 提取 webpack runtime 和 manifest 以避免第三方代码块在每次构建的时候改变
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
     }),
